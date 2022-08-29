@@ -1,0 +1,1660 @@
+## 001.
+What is the `ScriptSig` for a P2PKH?
+---
+`<sig> <pubkey>`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 002.
+Why does bitcoin follow the chain with the most work, rather than the longest chain?
+---
+Because there are attacks where you can fake timestamps and change the difficulty adjustment, and eventually produce a chain that is _longer_ even though it has less work.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 003.
+Which BIP standardized the derivation paths for HD wallets that included things like account numbers and internal and external addresses?
+---
+BIP-44
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 004.
+What is 2nd preimage resistance?
+---
+Given an input `m1` and its resulting hash `hash(m1)`, it should be difficult to find another input `m2` such that `m1 ≠ m2` and `hash(m1) = hash(m2)`. In other words, given an initial preimage and hash, it's very difficult to find a _second_ preimage that maps to that same hash output.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 005.
+The exact formula for the elliptic curve that bitcoin uses is {{y^2 = x^3 + 7}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 006.
+We call the latest block in the bitcoin blockchain the chain {{_tip_}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 007.
+The inputs in a legacy bitcoin transaction (pre-SegWit) are a grouping of 5 elements. What are they?
+---
+```
+Previous txid              32B
+Vout in previous txid      4B
+Size of ScriptSig (varint) 1-9B
+ScriptSig                  Variable length
+Sequence                   4B
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 008.
+What did BIP-43 standardize?
+---
+The purpose field for deterministic wallets.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 009.
+What was the original idea behind the sequence field in the inputs?
+---
+The original meaning of the sequence field (often referred to as `nSequence`) was to allow modification of transactions in the mempool. If the sequence value of the input was less than `0xFFFFFFFF`, it indicated a transaction that was not yet finalized. Such a transaction would be held in the mempool until it was replaced by another transaction spending the same inputs with a higher sequence value. Once a transaction was received whose inputs had an sequence value of `0xFFFFFFFF` it would be considered finalized and mined.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 010.
+How is _block weight_ defined?
+---
+Block weight is defined as 
+```
+(base block size * 3) + (total block size)
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 011.
+The inputs in a legacy bitcoin transaction (pre-SegWit) are a grouping of 5 elements. What are they?
+---
+```
+Previous txid              32B
+Vout in previous txid      4B
+Size of ScriptSig (varint) 1-9B
+ScriptSig                  Variable
+Sequence                   4B
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 012.
+What is an eclipse attack?
+---
+An eclipse attack is when an attacker controls all of the peers of a given node in the network. They can perform malicious attacks on the node by either withholding data of giving fake data to the attacked peer, without the peer knowing about it.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 013.
+In elliptic curve cryptography, operations that involve points and scalars are called {{mixed operations}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 014.
+The outputs in a legacy bitcoin transaction (pre-SegWit) are a grouping of 3 elements. What are they?
+---
+```
+Amount                  8B
+Size of ScriptPubKey    1-9B
+ScriptPubKey            Variable
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 015.
+What is the idea behind a _Child Pays For Parent_ (CPFP) transaction type?
+---
+Child Pays For Parent (CPFP) is a fee bumping technique where a user spends an output from a low-feerate unconfirmed transaction in a child transaction with a high feerate in order to encourage miners to include both transactions in a block.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 016.
+The first transaction in a block is called the {{coinbase}} transaction.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 017.
+What are the three functions needed for cryptographic signatures?
+---
+1. `generateKeys(): KeyPair(secretKey, publicKey)`
+2. `sign(secretKey, message): signature`
+3. `verify(publicKey, message, signature): Boolean`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 018.
+What is the tradeoff space between input and output size, and why would we prefer smaller outputs at the cost of bigger inputs? (for example by having the hash of the public key in the `ScriptPubKey` and forcing the spender to reveal the `pubkey` (preimage to that hash) in the `ScriptSig`) (3 reasons)
+---
+1. Outputs have to be kept in the UTXO set and be available, preferably quickly. We want to keep the outputs sizes small as they live in this UTXO database, and need to be randomly read.
+
+2. Inputs contain signatures, which in a lot of cases can be pruned (once your node has verified it, it can discard it, i.e. all nodes must keep the UTXO set in memory, but not all nodes need to keep the `ScriptSig` once a transaction has been validated). The signatures are not in the database, only in blocks, can can be read linearly and latency is ok. There is no "timing-critical" reads for these signatures. So it's nicer to load as much as we can in the `ScriptSig`.
+
+3. We don't know that an output will be redeemed. Might as well keep the cost of having that UTXO in the set small.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 019.
+A legacy bitcoin transaction (pre-SegWit) has 6 major fields. What are they?
+---
+1. Version
+2. Number of inputs
+3. Inputs
+4. Number of outputs
+5. Outputs
+6. Locktime
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 020.
+Why are digital signatures cooler than paper signatures?
+---
+Paper signatures really just sign the piece of paper. Digital signatures sign the message itself, such that it cannot be changed without invalidating the signature.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 021.
+The two mixed operations that are defined on elliptic curves are {{division}} and {{multiplication}}. The two undefined ones are {{addition}} and {{subtraction}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 022.
+The default consensus rule for bitcoin core is to reject blocks that have timestamps that are plus or minus {{2 hours}} from your local clock.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 023.
+What did BIP-39 standardize?
+---
+BIP-39 describes the implementation of a mnemonic code or mnemonic sentence—a group of easy to remember words—for the generation of deterministic wallets. 
+
+It consists of two parts: generating the mnemonic, and converting it into a binary seed. This seed can be later used to generate deterministic wallets using BIP-32.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 024.
+What is the purpose of the nonce field in a bitcoin block?
+---
+In theory it allows you to make changes to the content of the block in order to search for a valid proof-of-work without altering the meaningful parts of the block (timestamp, transactions, etc.).
+
+In practice the nonce field in bitcoin is too small to be enough for finding a valid proof-of-word for most blocks, and so miners end up changing other parts of the block as well (timestamp, transactions, etc.).
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 025.
+If Alice and Bob have shared their elliptic curve public keys with each other, they can arrive at a common, _shared but secret only to them_, third public key. How is that done?
+---
+Alice and Bob both multiply each other's public key with their own private key, which yields the same, new public key `C`. `C` is called a Diffie Hellman point.
+Alice pubKey: `A = aG`
+Bob pubKey: `B = bG`
+Shared public key: `(aG)b = (bG)a = (ab)G = C`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 026.
+The new SegWit rules deprecated the rule of maximum block size for what rule?
+---
+Block weight ≤ `4,000,000` bytes.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 027.
+What's the general idea behind ring signatures?
+---
+Instead creating and verifying a signature using one public key and a message, you sign a message using an array of public keys, any of which could have signed the message, and you verify the signature using this same array.
+
+Any of the private keys associated with the set of public keys could have been the one to sign.
+```
+sign(privKey, []pubKey, message)
+verify([]pubKey, message)
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 028.
+What do we call a `txid:outputnumber` pair?
+---
+An outpoint.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 029.
+A bitcoin block header has 6 sections. What are they?
+---
+```
+version         4B
+previous hash   32B
+merkle root     32B
+time            4B
+nBits           4B
+nonce           4B
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 030.
+The output of a sha256 hashing function is {{32}} bytes long.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 031.
+In elliptic curve cryptography, your private key is really just a {{scalar}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 032.
+What is the total weight units on a SegWit transaction with 50 bytes of base transaction and 50 bytes of witness data?
+---
+50 bytes (_base transaction size_) times 3 + 100 bytes (_total transaction size_) = 250 weight units.
+
+`(50 * 3) + 100 = 250`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 033.
+In the context of elliptic curves, what's one way Bob can ask Alice to prove who she says she is?
+---
+Bob knows Alice's public key `A`. He creates a random private/public key pair (say `b` and `B`) and asks Alice to compute `C`, a point created by multiplying her private key with Bob's public key. If she can do it (and he can verify this `C` to be the correct one because multiplying the private key `b` with Alice's public key `A` will generate the same point `C`), she has access to the secret key associated with her public key `A`.
+
+This is basically asking her to compute the Diffie-Hellman point.
+
+```python
+bA = C  # Bob's PrivKey with Alice's PubKey
+aB = C  # Alice's PrivKey with Bob's PubKey
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 034.
+When verifying that a UTXO satisfies the spending conditions, a node will combine the two pieces of script by putting the {{`ScriptSig`}} before the {{`ScriptPubKey`}} and then run the combined script.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 035.
+In elliptic curve cryptography notation, we use {{lower case letters}} to denote scalars and {{upper case letters}} to denote points on the curve.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 036.
+If an elliptic curve public key is a point on the curve which is defined by its x and y coordinates, each 32 bytes long, why are public keys in bitcoin transactions most often 33 bytes long?
+---
+Because the curve is symetric on the x-axis, you can provide only the x-coordinate and a single bit signalling whether the point is above or below 0 on the y-axis, and that will define a point on the curve fully.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 037.
+How is _transaction weight_ defined?
+---
+Transaction weight is defined as _base transaction_ size times 3 plus _total transaction_ size.
+```
+(base * 3) + total
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 038.
+What is the `ScriptPubKey` for a P2PKH? (5 steps) 
+---
+```
+OP_DUP
+OP_HASH160
+<H(pubkey)>
+OP_EQUALVERIFY
+OP_CHECKSIG
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 039.
+What is special about opcodes that have the VERIFY suffix?
+---
+They halt execution of the script if the outcome is false, and continue execution if the outcome is true.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 040.
+A `ScriptSig` {{satisfies}} the `ScriptPubKey` predicate.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 041.
+What was the maximum block size in bytes before SegWit?
+---
+1,000,000 bytes (1MB)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 042.
+What did BIP-32 standardize?
+---
+Before BIP-32, bitcoin core was just randomly generating keys, with nothing to tie them together. You had to really save the whole set of private keys, and hardware failure is common. BIP-32 describes a way to deterministically generate an infinite number of keys from just one starting key. The proposal also outlines how to generate different levels of new keys (sibling keys and children keys).
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 043.
+Why can't you DOS the network by broadcasting out a huge number of unspendable transactions?
+---
+Because nodes who see an unspendable transaction will not relay it to their peers, and if they see a bunch coming from a node they'll ban that node. So you can't really get an unspendable transaction to propagate.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 044.
+What is collision resistance?
+---
+It should be difficult to find two different messages `m1` and `m2` such that `hash(m1) = hash(m2)`. Such a pair is called a cryptographic hash collision.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 045.
+What type of addresses are derived in a BIP-44-compliant wallet?
+---
+Pay to public key hash (P2PKH)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 046.
+What are the standard names for the 6 nodes in the derivation path for a BIP-44/49/84 wallet?
+---
+1. Root key
+2. Derivation scheme
+3. Coin type
+4. Account number
+5. Internal/external
+6. Address (index)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 047.
+A valid digital signature gives a recipient reason to believe that the message was signed by a {{known sender}} (the owner of a given public key), that the sender {{cannot deny having signed the message}}, and that the message was not {{altered in transit}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 048.
+Which BIP standardized the main replace-by-fee scheme used today?
+---
+BIP-125
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 049.
+What does `OP_CHECKSEQUENCEVERIFY` do?
+---
+`OP_CHECKSEQUENCEVERIFY` can do relative lock times .
+
+It checks if an input's sequence number is smaller than the sequence threshold, and if so, it will compare the locktime against the sequence number of the input.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 050.
+Describe the `ScriptPubKey` and the `ScriptSig` in an "anyone can spend" transaction and how they work together.
+---
+The `ScriptPubKey` is empty and the `ScriptSig` has `OP_TRUE` in it. Because the full script is `ScriptSig + ScriptPubKey`, the full script is now `OP_TRUE`, which pushes `true` onto the stack and ends, which means the transaction spend is valid.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 051.
+What is the ScriptPubKey for a P2PK output?
+---
+```
+<pubkey> OP_CHECKSIG
+```
+
+Which, combined with the ScriptSig, looks like this:
+```
+<sig> <pubkey> OP_CHECKSIG
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 052.
+Which BIP describes hierarchical deterministic wallets?
+---
+BIP-32
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 053.
+What are the 3 fragments of Script operations Miniscript maps to?
+---
+1. Signature verification
+2. Hashlocks
+3. Timelocks
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 054.
+What type of addresses are derived in a BIP-84-compliant wallet?
+---
+Pay to witness public key hash (P2WPKH)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 055.
+Write an example of a BIP-21 payment request uri string
+---
+```sh
+bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donation%20for%20project%20xyz
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 056.
+What is the currently best practice in wallet software that discourage fee sniping?
+---
+Wallets can set the nLockTime of new transactions to the height of the most recent block by default, enabling anti fee sniping by preventing reorgs to include well-paying (in fees) transactions in prior blocks.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 057.
+Describe the fee sniping attack.
+---
+Fee sniping occurs when a miner deliberately re-mines one or more previous blocks in order to take the fees from the miners who originally created those blocks. Although re-mining a previous block is less likely to succeed than simply extending the chain with a new block, it can be more profitable if the previous block is worth much more in transaction fees than the transactions currently in the miner’s mempool.
+
+Fee sniping is a problem that may occur as Bitcoin’s subsidy continues to diminish and transaction fees begin to dominate Bitcoin’s block rewards.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 058.
+Bitcoin block headers are {{80}} bytes.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 059.
+Which BIP standardizes the purpose field for deterministic wallets?
+---
+BIP-43
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 060.
+What is preimage resistance?
+---
+Preimage resistance is the property of a hash function that it is hard to invert, that is, given an output of the hash function, it should be computationally infeasible to find an input that maps to that element.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 061.
+In ECDSA, you can build a shared public key between two participants where neither participant can sign because they don't know the private key without knowledge of a piece of data from the other party. How does that work?
+---
+If Alice and Bob add their public keys `A` and `B`, they get a public key `A + B = C`. The private key for this public key is `aG + bG = (a + b)G = cG = C` is `a + b = c`, which neither party possess. This can be used in schemes where Alice can give Bob her private key, allowing Bob to redeem coins locked using the public key `C`.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 062.
+What is the content of the `ScriptPubKey` in an "anyone can spend" transaction?
+---
+It's empty.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 063.
+Why can't an attacker with 51% of the hashing power re-write history in a way that sends all the money to himself?
+---
+Because that would require forging cryptographic signatures. Rather, the only thing a reorg attacker can do is replay their _own_ transactions in a way that sends the money to a different recipient (themselves for example).
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 064.
+In elliptic curve cryptography, your public key is a {{point on the curve}} obtained by multiplying your {{private key (scalar)}} with the {{generator point}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 065.
+The difficulty target in bitcoin is adjusted every {{2016}} blocks.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 066.
+You'll find `ScriptSig`s in the {{inputs}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 067.
+What is a cryptographic hash collision?
+---
+A cryptographic hash collision is when two inputs hash to the same value on a given hash function.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 068.
+What is a Sybil attack?
+---
+A Sybil attack is a type of attack on a computer network service in which an attacker subverts the service's reputation system by creating a large number of pseudonymous identities and uses them to gain a disproportionately large influence.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 069.
+What are the 7 types of standard bitcoin transactions?
+---
+1. Pay to Public Key
+2. Pay to Public Key Hash
+3. Pay to Script Hash
+4. Pay to Witness Public Key Hash
+5. Pay to Witness Script Hash
+6. Pay to Multi-Signature
+7. Data (OP_RETURN)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 070.
+Which BIP introduced `OP_CHECKSEQUENCEVERIFY`?
+---
+BIP-112
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 071.
+What does BIP-125 standardize?
+---
+Opt-in full replace-by-fee signalling
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 072.
+How many nodes are hardened in a typical BIP-44/49/84/86 wallet tree?
+---
+4 (e.g. `mh/86h/0h/0h/0/*`)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 073.
+What are the derivation paths for a BIP-84-compliant mainnet wallet with internal and external addresses?
+---
+```
+External: RootKey/84h/0h/0h/0/*
+Internal: RootKey/84h/0h/0h/1/*
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 074.
+The ancestor to all nodes in a Merkle tree is called the {{Merkle root}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 075.
+The idea of median-time-past was defined in {{BIP-113}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 076.
+What's an advantage of Child-Pays-For-Parent over RBF?
+---
+You can use CPFP as the receiver of a stuck transaction.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 077.
+What are the weight units on a non-segwit transaction with 50 bytes of transaction + 50 bytes of witness data?
+---
+100 bytes (_base transaction size_) times 3 + 100 bytes of (_total transaction size_) = 400 weight units. s
+```
+(100 * 3) + 100 = 400
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 078.
+Which BIP describes how to generate recovery phrases for BIP-32-style hierarchical deterministic wallets?
+---
+BIP-39
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 079.
+What are the 4 fields currently defined in BIP-21?
+---
+1. `bitcoin`
+2. `amount`
+3. `label`
+4. `message`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 080.
+What type of addresses are derived in a BIP-49-compliant wallet?
+---
+Wrapped segwit. A pay to script hash that wraps a pay to witness public key hash (P2SH-P2WPKH).
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 081.
+What is the maximum size of the data push you can have after an `OP_RETURN`?
+---
+40 bytes.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 082.
+What does BIP-68 standardize?
+---
+BIP-68 repurposes the transaction `nSequence` field meaning by giving sequence numbers new consensus-enforced semantics as a relative locktime.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 083.
+By default, a Bitcoin Core node will attempt to connect to {{7}} peers.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 084.
+What does `OP_HASH160` do?
+---
+The input is hashed twice: first with SHA-256 and then with RIPEMD-160.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 085.
+A soft fork {{adds}} new rules to the system.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 086.
+You'll find `ScriptPubKeys` in the {{outputs}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 087.
+What is Opt-in Full Replace-by-Fee Signalling?
+---
+Opt-in Full Replace-by-Fee Signalling considers a transaction to have opted in to allow replacement of itself if any of its inputs have a sequence number less than `0xFFFFFFFE`. 
+
+If attempting to replace a transaction, a higher fee must be provided, with an increase of at least the minimum relay fee.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 088.
+Elliptic curve cryptography defines two operations on points: {{addition}} and {{subtraction}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 089.
+What type of addresses are derived in a BIP-86-compliant wallet?
+---
+Pay to Taproot (PT)
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 090.
+Why didn't the sequence field work in practice? (2 reasons)
+---
+1. In the initial implementation, replacement transactions did not have to pay additional fees, so there was no direct incentive for miners to include the replacement. 
+2. No built-in rate limiting prevented overuse of relay node bandwidth. It was possible for an attacker to use up all the bandwidth among full nodes at only a small cost to themselves, creating a denial-of-service vulnerability.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 091.
+What did BIP-44 standardize?
+---
+Multi-account hierarchy for deterministic wallets It defines the following 6 levels in the BIP32 path:
+```
+m / purpose' / coin_type' / account' / change / address_index
+```
+BIP-44 is a particular implementation of BIP-43, where derived addresses are of type P2PKH.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 092.
+PSBTs are defined in BIPs {{174}} and {{370}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 093.
+What does `OP_HASH256` do?
+---
+The input is hashed twice with SHA-256.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 094.
+The default TCP port for a bitcoin node on mainnet is {{8333}} and on testnet is {{18333}}.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 095.
+What is the ScriptPubKey for a 2-of-3 multisig in a Pay-to-MultiSig (P2MS) transaction?
+---
+```
+OP_2 <pubkey1> <pubkey2> <pubkey3> OP_3 OP_CHECKMULTISIG
+```
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 096.
+What did BIP-67 standardize?
+---
+Deterministic Pay-to-script-hash (P2SH) multi-signature addresses through public key sorting.
+
+The BIP describes a method to deterministically generate multi-signature pay-to-script-hash transaction scripts. It focuses on defining how the public keys must be encoded and sorted so that the redeem script and corresponding P2SH address are always the same for a given set of keys and number of required signatures.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 097.
+What is the default value for minimum relay fee for a bitcoin core node?
+---
+1 satoshi per vbyte. Note that while we refer to it as the "minimum relay fee", it's not an absolute fee but a fee rate.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 098.
+What is Signet?
+---
+Signet was defined in BIP-325 and is a new test network for bitcoin which adds an additional signature requirement to block validation.
+
+The BIP describes it as a new type of test network where signatures are used in addition to proof of work for block progress, enabling much better coordination and robustness (be reliably unreliable), for persistent, longer-term testing scenarios involving multiple independent parties.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 099.
+What is Regtest?
+---
+For situations where interaction with random peers and blocks is unnecessary or unwanted, Bitcoin Core’s regression test mode (regtest mode) lets you instantly create a brand new private blockchain with the same basic rules as testnet but with one major difference: you choose when to create new blocks, so you have complete control over the environment.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 100.
+What are _Partially Signed Bitcoin Transactions_ (PSBT)?
+---
+Partially Signed Bitcoin Transactions (PSBTs) are a data format that allows wallets and other tools to exchange information about a Bitcoin transaction and the signatures necessary to complete it.
+
+A PSBT can be created that identifies a set of UTXOs to spend and a set of outputs to receive that spent value. Then information about each UTXO that’s necessary to generate a signature for it can added, possibly by a separate tool, such as the UTXO’s script or its precise bitcoin value.
+
+The PSBT can then be copied by any means to a program that can sign it. For multisig wallets or cases where different wallets control different inputs, this last step can be repeated multiple times by different programs on different copies of the PSBT. Multiple PSBTs each with one or more necessary signatures can be integrated into a single PSBT later. Finally, that fully signed PSBT can be converted into a complete ready-to-broadcast transaction.
