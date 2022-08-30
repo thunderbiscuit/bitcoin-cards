@@ -8,5 +8,7 @@ See the [release `0.1.0`]() and try them out!
 I'm testing these cards myself as I go so they'll get updates as I find better ways to word the questions and answers. Feel free to open issues and PRs if you see anything that could be improved.
 
 ## Versioning
-- btc-dev-1: `0.1.0`
-- ln-dev-1: `in development`
+| Deck | Version |
+|:-----|:---:|
+| `btc-dev-1` | `0.1.0` |
+| `ln-dev-1` | 🏗️ |
