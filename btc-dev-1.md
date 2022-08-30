@@ -164,15 +164,7 @@ Block weight is defined as
 
 =====================
 ## 011.
-The inputs in a legacy bitcoin transaction (pre-SegWit) are a grouping of 5 elements. What are they?
----
-```
-Previous txid              32B
-Vout in previous txid      4B
-Size of ScriptSig (varint) 1-9B
-ScriptSig                  Variable
-Sequence                   4B
-```
+The reference bitcoin client is most often referred to as {{Bitcoin Core}} and is written in {{C++}} with a {{Python}} test suite.
 =====================
 
 
@@ -221,7 +213,7 @@ The outputs in a legacy bitcoin transaction (pre-SegWit) are a grouping of 3 ele
 ```
 Amount                  8B
 Size of ScriptPubKey    1-9B
-ScriptPubKey            Variable
+ScriptPubKey            Variable length
 ```
 =====================
 
