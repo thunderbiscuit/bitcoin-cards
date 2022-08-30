@@ -9,3 +9,4 @@ I'm testing these cards myself as I go so they'll get updates as I find better w
 
 ## Versioning
 - btc-dev-1: `0.1.0`
+- ln-dev-1: `in development`
