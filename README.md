@@ -16,3 +16,4 @@ I'm testing these cards myself as I go so they'll get updates as I find better w
 |:-----|:---:|---:|
 | `deck1-btc-dev` | `0.1.0` | `deck1-btc-dev-v010` |
 | `deck2-ln-dev` | 🏗️ | not yet released |
+| `deck3-btc-dev` | 🏗️ | not yet released |

@@ -258,7 +258,7 @@ The first transaction in a block is called the {{coinbase}} transaction.
 
 =====================
 ## 017.
-What are the three functions needed for cryptographic signatures?
+What are the 3 functions needed for cryptographic signatures?
 ---
 1. `generateKeys(): KeyPair(secretKey, publicKey)`
 2. `sign(secretKey, message): signature`
@@ -276,7 +276,7 @@ What are the three functions needed for cryptographic signatures?
 
 =====================
 ## 018.
-What is the tradeoff space between input and output size, and why would we prefer smaller outputs at the cost of bigger inputs? (for example by having the hash of the public key in the `ScriptPubKey` and forcing the spender to reveal the `pubkey` (preimage to that hash) in the `ScriptSig`) (3 reasons)
+What is the tradeoff space between input and output size, and why would we prefer smaller outputs at the cost of bigger inputs? (for example by having the hash of the public key in the `ScriptPubKey` and requiring the spender to reveal the `pubkey` (preimage to that hash) in the `ScriptSig`) (3 reasons)
 ---
 1. Outputs have to be kept in the UTXO set and be available, preferably quickly. We want to keep the outputs sizes small as they live in this UTXO database, and need to be randomly read.
 
@@ -399,10 +399,12 @@ In practice the nonce field in bitcoin is too small to be enough for finding a v
 ## 025.
 If Alice and Bob have shared their elliptic curve public keys with each other, they can arrive at a common, _shared but secret only to them_, third public key. How is that done?
 ---
-Alice and Bob both multiply each other's public key with their own private key, which yields the same, new public key `C`. `C` is called a Diffie Hellman point.
-Alice pubKey: `A = aG`
-Bob pubKey: `B = bG`
-Shared public key: `(aG)b = (bG)a = (ab)G = C`
+Alice and Bob both multiply each other's public key with their own private key, which yields the same, new public key `C`. `C` is called a Diffie-Hellman point.
+```sh
+A = aG                     # Alice pubkey
+B = bG                     # Bob pubkey
+C = b(aG) = a(bG) = (ab)G  # Shared pubkey
+```
 =====================
 
 
@@ -434,7 +436,7 @@ Block weight ≤ `4,000,000` bytes.
 ## 027.
 What's the general idea behind ring signatures?
 ---
-Instead creating and verifying a signature using one public key and a message, you sign a message using an array of public keys, any of which could have signed the message, and you verify the signature using this same array.
+Instead of creating and verifying a signature using one public key and a message, you sign a message using an array of public keys, any of which could have signed the message, and you verify the signature using this same array.
 
 Any of the private keys associated with the set of public keys could have been the one to sign.
 ```
@@ -521,11 +523,13 @@ In elliptic curve cryptography, your private key is really just a {{scalar}}.
 
 =====================
 ## 032.
-What is the total weight units on a SegWit transaction with 50 bytes of base transaction and 50 bytes of witness data?
+What is the total size (in weight units—`wu`) of a SegWit transaction with 50 bytes of base transaction and 50 bytes of witness data?
 ---
 50 bytes (_base transaction size_) times 3 + 100 bytes (_total transaction size_) = 250 weight units.
 
-`(50 * 3) + 100 = 250`
+```
+(50 * 3) + 100 = 250
+```
 =====================
 
 
@@ -539,7 +543,7 @@ What is the total weight units on a SegWit transaction with 50 bytes of base tra
 
 =====================
 ## 033.
-In the context of elliptic curves, what's one way Bob can ask Alice to prove who she says she is?
+In the context of elliptic curves, what is one way Bob can ask Alice to prove who she says she is?
 ---
 Bob knows Alice's public key `A`. He creates a random private/public key pair (say `b` and `B`) and asks Alice to compute `C`, a point created by multiplying her private key with Bob's public key. If she can do it (and he can verify this `C` to be the correct one because multiplying the private key `b` with Alice's public key `A` will generate the same point `C`), she has access to the secret key associated with her public key `A`.
 
@@ -1252,7 +1256,7 @@ The idea of median-time-past was defined in {{BIP-113}}.
 
 =====================
 ## 076.
-What's an advantage of Child-Pays-For-Parent over RBF?
+What is an advantage of Child-Pays-For-Parent over RBF?
 ---
 You can use CPFP as the receiver of a stuck transaction.
 =====================
@@ -1303,7 +1307,7 @@ BIP-39
 
 =====================
 ## 079.
-What are the 4 fields currently defined in BIP-21?
+What are the 4 fields defined in BIP-21?
 ---
 1. `bitcoin`
 2. `amount`
