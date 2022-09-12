@@ -1,3 +1,148 @@
 ## 201.
-The new unit of measurement for blocks and transactions' sized introduced with SegWit is called {{ weight units (`wu`) }}.
+What does `SIGHASH_SINGLE` do?
+---
+This signature type will sign all of the inputs and only 1 of the outputs (the corresponding one in terms of index). It implies you're ok with participating in a transaction with the given inputs, as long as _this_ much goes to _this_ address. The rest of the outputs, you don't care.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 202.
+There are 4 sighash "flags", yet 6 possible combinations of those flags. How does that work?
+---
+One of those sighash types (`SIGHASH_ANYONECANPAY`) can be _combined_ with any of the other 3 if desired. That makes a total of 6.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 203.
+Bitcoin transactions use a flag(s) called a _sighash_ to specify exactly what part of the transaction data should be signed. How many of those sighash combinations are there?
+---
+6 in total.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 204.
+What is the most common default sighash type used in bitcoin wallets?
+---
+`SIGHASH_ALL`
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 205.
+What does `SIGHASH_NONE` do?
+---
+It signs all of the inputs in a transaction and none of the outputs. It amounts to saying "this transaction can use my UTXO, but I don't mind where it goes". It's the equivalent of signing a blank cheque.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 206.
+What's different between the standard base 64 encoding and Bitcoin's base58 encoding?
+---
+Base58 is base64 with the `0`, `O`, `l`, `I`, `+`, and `/` characters removed.
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 207.
+
+---
+
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 208.
+
+---
+
+=====================
+
+
+
+
+
+
+
+
+
+
+=====================
+## 209.
+
+---
+
+=====================
+
+
+
+
+
+
+
+
+
+=====================
+## 210.
+
+---
+
 =====================

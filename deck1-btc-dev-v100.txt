@@ -667,7 +667,7 @@ They halt execution of the script if the outcome is false, and continue executio
 
 =====================
 ## 040.
-A `ScriptSig` {{satisfies}} the `ScriptPubKey` predicate.
+The new unit of measurement for block and transaction sizes introduced with SegWit is called {{ weight units (`wu`) }}.
 =====================
 
 
@@ -761,10 +761,10 @@ Pay to public key hash (P2PKH)
 
 =====================
 ## 046.
-What are the standard names for the 6 nodes in the derivation path for a BIP-44/49/84 wallet?
+What are the standard names for the 6 nodes in the derivation path for a BIP-44/49/84/86 wallet?
 ---
 1. Root key
-2. Derivation scheme
+2. Purpose field
 3. Coin type
 4. Account number
 5. Internal/external
@@ -919,11 +919,9 @@ Pay to witness public key hash (P2WPKH)
 
 =====================
 ## 055.
-Write an example of a BIP-21 payment request uri string
+Which of the 4 fields in the BIP-21 URI scheme are optional?
 ---
-```sh
-bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donation%20for%20project%20xyz
-```
+`amount`, `label`, and `message`
 =====================
 
 
@@ -937,7 +935,7 @@ bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donat
 
 =====================
 ## 056.
-What is the currently best practice in wallet software that discourage fee sniping?
+What is considered best practice in wallet software to discourage fee sniping?
 ---
 Wallets can set the nLockTime of new transactions to the height of the most recent block by default, enabling anti fee sniping by preventing reorgs to include well-paying (in fees) transactions in prior blocks.
 =====================
@@ -1065,7 +1063,7 @@ Because that would require forging cryptographic signatures. Rather, the only th
 
 =====================
 ## 064.
-In elliptic curve cryptography, your public key is a {{point on the curve}} obtained by multiplying your {{private key (scalar)}} with the {{generator point}}.
+In elliptic curve cryptography, your public key is a {{point on the curve}} obtained by multiplying your {{private key (a scalar)}} with the {{generator point}}.
 =====================
 
 
